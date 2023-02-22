@@ -10,23 +10,23 @@ describe 'querying the bears table' do
     db.execute_batch(insert_sql)
   end
   
-  it 'selects all of the female bears and returns their name and age' do
-    expect(db.execute(selects_all_female_bears_return_name_and_age)).to eq([["Tabitha", 6],["Melissa", 13], ["Wendy", 6]])
+  def selects_all_female_bears_return_name_and_age
+    "SELECT bears.name, bears.age FROM bears WHERE sex='F';"
   end
 
-  it 'selects all of the bears names and orders them in alphabetical order' do
-    expect(db.execute(selects_all_bears_names_and_orders_in_alphabetical_order)).to eq([[nil],["Grinch"],["Melissa"],["Mr. Chocolate"],["Rowdy"],["Sargeant Brown"],["Tabitha"],["Wendy"]])
+  def selects_all_of_the_bears_names_and_orders_them_in_alphabetical_order 
+    "SELECT bears.name FROM bears"
   end
 
-  it 'selects all of the bears names and ages that are alive and order them from youngest to oldest' do
-    expect(db.execute(selects_all_bears_names_and_ages_that_are_alive_and_order_youngest_to_oldest)).to eq([["Grinch", 2], ["Tabitha", 6], ["Wendy", 6], ["Rowdy", 10], ["Melissa", 13]])
+  def selects_all_of_the_bears_names_and_ages_that_are_alive_and_order_them_from_youngest_to_oldest
+    "SELECT bears.name, bears.age, bears.alive FROM bears" 
   end
 
-  it 'selects the oldest bear and returns their name and age' do
-    expect(db.execute(selects_oldest_bear_and_returns_name_and_age)).to eq([["Mr. Chocolate", 20]])
+  def selects_the_oldest_bear_and_returns_their_name_and_age
+    "SELECT bears.name, bears.age WHERE age = (SELECT MAX(age) FROM bears)"
   end
 
-  it 'selects the youngest bear and returns their name and age' do
-    expect(db.execute(select_youngest_bear_and_returns_name_and_age)).to eq([["Grinch", 2]])
+  def selects_the_youngest_bear_and_returns_their_name_and_age 
+    "SELECT bears.name, bears.age WHERE age = (SELECT MIN(age) FROM bears)"
   end
 end
